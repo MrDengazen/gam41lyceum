@@ -11,12 +11,19 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.game.Main;
 
+import java.util.Arrays;
+import java.util.Collections;
+
+
 public class InvokerGame implements Screen {
     Main game;
     protected static Texture[] buttons_textures;
     protected static Texture[] balls_textures;
     QWER[] buttons;
     Ball[] balls;
+    Integer[] id_balls;
+    boolean is_skill_casted;
+    String id_skill_casted;
 
     public InvokerGame(Main game) {
         this.game = game;
@@ -24,6 +31,7 @@ public class InvokerGame implements Screen {
         balls_textures = new Texture[3];
         buttons = new QWER[4];
         balls = new Ball[3];
+        id_balls = new Integer[3];
         for (int i = 0; i < buttons_textures.length; i++) {
             buttons_textures[i] = new Texture("button_" + i + ".png");
         }
@@ -35,6 +43,7 @@ public class InvokerGame implements Screen {
         }
         for (int i = 0; i < balls_textures.length; i++) {
             balls[i] = new Ball(i, pppY * 10, pppY * 10, pppX * 40 + pppX * 7.5f * i, pppY * 29);
+            id_balls[i] = i;
         }
     }
 
@@ -59,10 +68,15 @@ public class InvokerGame implements Screen {
                     if (button.getId() < 3) {
                         for (int i = 0; i < 2; i++) {
                             balls[i].setId(balls[i + 1].getId());
+                            id_balls[i] = id_balls[i + 1];
                         }
                         balls[2].setId(button.getId());
-                    } else {
-                        //skill_casted = 1;
+                        id_balls[2] = button.getId();
+                    } else if(button.getId() == 3){
+                        is_skill_casted = true;
+                        Arrays.sort(id_balls, Collections.<Integer>reverseOrder());
+                        id_skill_casted = id_balls[0] + "" + id_balls[1] + id_balls[2];
+
                     }
                 }
             }
