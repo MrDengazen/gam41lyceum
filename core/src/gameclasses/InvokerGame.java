@@ -13,22 +13,26 @@ import com.mygdx.game.Main;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Random;
 
 
 public class InvokerGame implements Screen {
     Main game;
     protected static Texture[] buttons_textures;
     protected static Texture[] balls_textures;
+    protected static Texture[] skills_textures;
     QWER[] buttons;
     Ball[] balls;
     Integer[] id_balls;
     boolean is_skill_casted;
     String id_skill_casted;
+    final Random random = new Random();
 
     public InvokerGame(Main game) {
         this.game = game;
         buttons_textures = new Texture[4];
         balls_textures = new Texture[3];
+        skills_textures = new Texture[10];
         buttons = new QWER[4];
         balls = new Ball[3];
         id_balls = new Integer[3];
@@ -37,6 +41,15 @@ public class InvokerGame implements Screen {
         }
         for (int i = 0; i < balls_textures.length; i++) {
             balls_textures[i] = new Texture("ball_" + i + ".png");
+        }
+        int f = 0;
+        for (int i = 0; i < balls_textures.length; i++) {
+            for (int j = 0; j <= i; j++) {
+                for (int k = 0; k <= j; k++) {
+                    skills_textures[f] = new Texture("skill_" + i + "" + j + "" + k + "" + ".png");
+                    f += 1;
+                }
+            }
         }
         for (int i = 0; i < buttons_textures.length; i++) {
             buttons[i] = new QWER(i, pppY * 25, pppY * 25, pppX * 12.5f + pppX * 20 * i, pppY * 2);
@@ -76,7 +89,6 @@ public class InvokerGame implements Screen {
                         is_skill_casted = true;
                         Arrays.sort(id_balls, Collections.<Integer>reverseOrder());
                         id_skill_casted = id_balls[0] + "" + id_balls[1] + id_balls[2];
-
                     }
                 }
             }
